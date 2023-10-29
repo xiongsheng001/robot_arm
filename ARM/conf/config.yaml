@@ -1,0 +1,37 @@
+rlbench:
+    task: open_drawer
+    demos: 10
+    demo_path: /media/xs/103F0A0C103F0A0C/robot/ARM/datas/train
+    episode_length: 10
+    cameras: [front]
+    camera_resolution: [128, 128]
+    scene_bounds: [-0.3, -0.5, 0.6, 0.7, 0.5, 1.6]
+
+replay:
+    batch_size: 32 #128
+    timesteps: 1
+    prioritisation: True
+    use_disk: True #False
+    path: './tmp/arm/replay'  # Only used when use_disk is True.
+
+framework:
+    log_freq: 100
+    save_freq: 100
+    train_envs: 1
+    eval_envs: 1
+    replay_ratio: 128 #128
+    transitions_before_train: 200
+    tensorboard_logging: True
+    csv_logging: True
+    training_iterations: 40000
+    gpu: 0
+    env_gpu: 0
+    logdir: './tmp/arm_test/'
+    seeds: 1
+
+defaults:
+    - method: C2FARM
+
+hydra:
+    run:
+        dir: ${framework.logdir}/${rlbench.task}/${method.name}
